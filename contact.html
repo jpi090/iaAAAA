@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Contact - IAAAACAME</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {margin:0; padding:0; box-sizing:border-box;}
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height:1.6; 
+      background: #f9f9f9;
+      color:#333;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Modern Navbar */
+    nav {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      backdrop-filter: blur(20px);
+      padding: 10px 25px;
+      position:sticky;
+      top:0;
+      z-index:1000;
+      box-shadow: 0 8px 32px rgba(220, 38, 38, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    nav img {
+      height: 45px;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+      z-index: 1001;
+    }
+    nav img:hover {
+      transform: scale(1.05);
+    }
+    .nav-links {
+      display:flex;
+      gap: 5px;
+    }
+    nav a {
+      color: white;
+      padding: 10px 18px;
+      text-decoration:none;
+      font-weight: 500;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    nav a:hover, nav a.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+    }
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    nav a:hover::before {
+      left: 100%;
+    }
+    
+    /* Dropdown Menu */
+    .nav-item {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      min-width: 200px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      margin-top: 5px;
+    }
+    .nav-item:hover .dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .dropdown a {
+      display: block;
+      padding: 12px 20px;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .dropdown a:first-child {
+      border-radius: 12px 12px 0 0;
+    }
+    .dropdown a:last-child {
+      border-radius: 0 0 12px 12px;
+      border-bottom: none;
+    }
+    .dropdown a:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .nav-item > a::after {
+      content: ' ▼';
+      font-size: 0.7em;
+      margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+    .nav-item:hover > a::after {
+      transform: rotate(180deg);
+    }
+    
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 3px 0;
+      transition: 0.3s;
+      border-radius: 3px;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, #004080 0%, #0066cc 100%);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    }
+    .page-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 0.8s ease;
+    }
+    .page-header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    .breadcrumb {
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+    .breadcrumb a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+    .breadcrumb a:hover {
+      opacity: 1;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      width:90%; 
+      max-width:1200px; 
+      margin:auto; 
+      padding:40px 20px;
+    }
+
+    h2 {
+      color: #004080;
+      margin-bottom: 20px;
+      font-size: 2.2rem;
+      font-weight: 600;
+      position: relative;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: #004080;
+      border-radius: 2px;
+    }
+
+    /* Contact Section Styles */
+    .contact-main {
+      padding: 60px 0;
+    }
+    .contact-intro {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .contact-intro p {
+      font-size: 1.1rem;
+      color: #4a5568;
+      max-width: 800px;
+      margin: 20px auto;
+      line-height: 1.8;
+    }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      margin-top: 40px;
+    }
+    .contact-info {
+      display: grid;
+      gap: 30px;
+    }
+    .contact-item {
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.8);
+    }
+    .contact-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(0, 64, 128, 0.15);
+    }
+    .contact-item h3 {
+      color: #004080;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .contact-item p {
+      color: #4a5568;
+      line-height: 1.6;
+      font-size: 1.05rem;
+    }
+    .contact-item a {
+      color: #004080;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .contact-item a:hover {
+      color: #0066cc;
+    }
+    
+    /* Donate Section */
+    .donate-section {
+      background: linear-gradient(135deg, #004080 0%, #0066cc 100%);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      margin-top: 30px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .donate-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="donatePattern" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23donatePattern)"/></svg>');
+    }
+    .donate-content {
+      position: relative;
+      z-index: 1;
+    }
+    .donate-section h3 {
+      color: white;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+    .donate-section p {
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 25px;
+      font-size: 1.1rem;
+    }
+    .donate-button {
+      display: inline-block;
+      background: white;
+      color: #004080;
+      padding: 15px 35px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+    }
+    .donate-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(255, 255, 255, 0.4);
+    }
+    
+    /* Contact Form Styles */
+    .contact-form {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(20px);
+    }
+    .contact-form h3 {
+      color: #004080;
+      margin-bottom: 25px;
+      font-size: 1.6rem;
+    }
+    .form-group {
+      margin-bottom: 25px;
+    }
+    .form-group label {
+      display: block;
+      color: #2d3748;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      font-family: inherit;
+    }
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #004080;
+      box-shadow: 0 0 0 3px rgba(0, 64, 128, 0.1);
+    }
+    .form-group textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+    .submit-button {
+      width: 100%;
+      padding: 15px 30px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #004080 0%, #0066cc 100%);
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 25px rgba(0, 64, 128, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 35px rgba(0, 102, 204, 0.4);
+    }
+    .submit-button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    .submit-button:hover::before {
+      left: 100%;
+    }
+
+    /* Map Section */
+    .map-section {
+      margin-top: 60px;
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+    .map-section h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .map-section h2::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .office-locations {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .office-card {
+      text-align: center;
+      padding: 30px;
+      background: linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(255, 255, 255, 0.95) 100%);
+      border-radius: 15px;
+      border: 1px solid #e2e8f0;
+      transition: transform 0.3s ease;
+    }
+    .office-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+    }
+    .office-card h3 {
+      color: #004080;
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+    }
+    .office-card p {
+      color: #4a5568;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .footer {
+      background: #003366;
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+      margin-top: 80px;
+      position: relative;
+    }
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="footerGrain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23footerGrain)"/></svg>');
+    }
+    .footer p {
+      margin: 10px 0;
+      font-size: 1.1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .footer a {
+      color: #f73333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .footer a:hover {
+      color: #ff5555;
+      text-shadow: 0 0 10px rgba(247, 51, 51, 0.5);
+    }
+
+    /* Success Message */
+    .success-message {
+      display: none;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      text-align: center;
+      animation: slideDown 0.5s ease;
+    }
+    .success-message.show {
+      display: block;
+    }
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      nav {
+        padding: 10px 20px;
+      }
+      nav a {
+        padding: 8px 15px;
+        font-size: 0.95rem;
+      }
+      .page-header h1 {
+        font-size: 2.5rem;
+      }
+      .container {
+        width: 95%;
+        padding: 30px 15px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      /* Mobile Navigation */
+      .hamburger {
+        display: flex;
+      }
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+        padding-top: 100px;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+      }
+      .nav-links.active {
+        right: 0;
+      }
+      nav a {
+        width: 80%;
+        text-align: center;
+        margin: 10px 0;
+      }
+      .nav-item {
+        width: 80%;
+        display: block;
+      }
+      .nav-item > a {
+        width: 100%;
+      }
+      .dropdown {
+        position: relative;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        margin-top: 0;
+        display: none;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+        margin-left: 20px;
+        border-radius: 8px;
+        width: 100%;
+      }
+      .dropdown a {
+        width: 90%;
+        margin: 5px auto;
+        font-size: 0.9rem;
+      }
+      .nav-item.active .dropdown {
+        display: block;
+      }
+      .nav-item > a::after {
+        content: ' +';
+        float: right;
+      }
+      .nav-item.active > a::after {
+        content: ' −';
+      }
+      nav img {
+        height: 40px;
+      }
+      
+      /* Page Header Responsive */
+      .page-header {
+        padding: 60px 15px;
+      }
+      .page-header h1 {
+        font-size: 2rem;
+      }
+      .page-header p {
+        font-size: 1rem;
+      }
+      
+      /* Container & Typography */
+      .container {
+        width: 98%;
+        padding: 25px 10px;
+      }
+      h2 {
+        font-size: 1.8rem;
+      }
+      
+      /* Contact Grid */
+      .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+      .contact-form {
+        padding: 25px;
+      }
+      .contact-item {
+        padding: 25px;
+      }
+      
+      /* Footer */
+      .footer {
+        padding: 40px 15px;
+      }
+      .footer p {
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      /* Very Small Devices */
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+      .page-header p {
+        font-size: 0.9rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      /* Contact Form */
+      .contact-form {
+        padding: 20px;
+      }
+      .form-group input,
+      .form-group textarea {
+        padding: 12px;
+        font-size: 0.95rem;
+      }
+      
+      .contact-item h3 {
+        font-size: 1.2rem;
+      }
+      .contact-item p {
+        font-size: 0.95rem;
+      }
+      
+      .donate-section {
+        padding: 25px;
+      }
+      .donate-section h3 {
+        font-size: 1.5rem;
+      }
+      .donate-button {
+        padding: 12px 25px;
+        font-size: 1rem;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="index.html"><img src="./scr/IAACAAME.jpg" alt="IAAAACAME Logo"></a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" onclick="closeMenu()">Home</a>
+      <div class="nav-item">
+        <a href="about.html" onclick="closeMenu()">About</a>
+        <div class="dropdown">
+          <a href="index.html#projects" onclick="closeMenu()">Projects</a>
+          <a href="index.html#school" onclick="closeMenu()">School</a>
+          <a href="index.html#cause" onclick="closeMenu()">Our Cause</a>
+        </div>
+      </div>
+      <a href="contact.html" class="active" onclick="closeMenu()">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>Contact Us</h1>
+    <p>Get in touch with IAAAACAME to learn more about our mission</p>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> &raquo; Contact
+    </div>
+  </div>
+
+  <!-- Contact Section -->
+  <section class="contact-main">
+    <div class="container">
+      <div class="contact-intro">
+        <h2>We'd Love to Hear From You</h2>
+        <p>Whether you want to volunteer, donate, partner with us, or simply learn more about our work in African communities, we're here to help. Reach out through any of the channels below.</p>
+      </div>
+      
+      <div class="contact-grid">
+        <div class="contact-info">
+          <div class="contact-item">
+            <h3>📧 Email Us</h3>
+            <p>For general inquiries and information:<br>
+            <a href="mailto:info@iaaaacame.org">info@iaaaacame.org</a></p>
+            <p>For partnerships and collaborations:<br>
+            <a href="mailto:partners@iaaaacame.org">partners@iaaaacame.org</a></p>
+          </div>
+          
+          <div class="contact-item">
+            <h3>📞 Call Us</h3>
+            <p>USA Office:<br>
+            <a href="tel:+13053064567">+1 (305) 306-4567</a></p>
+            <p>Nigeria Office:<br>
+            <a href="tel:+2348012345678">+234 (801) 234-5678</a></p>
+            <p>Office Hours: Mon-Fri, 9AM-5PM (EST)</p>
+          </div>
+          
+          <div class="contact-item">
+            <h3>🏢 Visit Our Offices</h3>
+            <p><strong>USA Headquarters:</strong><br>
+            International Association of African American Ambassadors to Africa<br>
+            Miami, Florida<br>
+            United States</p>
+            
+            <p><strong>Nigeria Operations:</strong><br>
+            IAAAACAME Nigeria<br>
+            Abuja, Federal Capital Territory<br>
+            Nigeria</p>
+          </div>
+          
+          <div class="donate-section">
+            <div class="donate-content">
+              <h3>💝 Support Our Mission</h3>
+              <p>Your donation helps us build schools, provide clean water, and transform communities across Africa.</p>
+              <a href="#" class="donate-button" onclick="alert('Donation portal coming soon! Please contact us via email for donation information.')">Donate Now</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="contact-form">
+          <h3>Send us a Message</h3>
+          <div class="success-message" id="successMessage">
+            ✓ Thank you for your message! We'll get back to you within 24-48 hours.
+          </div>
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Your Name *</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Your Email *</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number (Optional)</label>
+              <input type="tel" id="phone" name="phone">
+            </div>
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <input type="text" id="subject" name="subject" required>
+            </div>
+            <div class="form-group">
+              <label for="message">Your Message *</label>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-button">Send Message</button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Office Locations -->
+      <div class="map-section">
+        <h2>Our Global Presence</h2>
+        <div class="office-locations">
+          <div class="office-card">
+            <h3>🇺🇸 United States</h3>
+            <p>Coordinating diaspora engagement and fundraising efforts for African development projects.</p>
+          </div>
+          <div class="office-card">
+            <h3>🇳🇬 Nigeria</h3>
+            <p>Managing on-ground operations, school construction, and community development initiatives.</p>
+          </div>
+          <div class="office-card">
+            <h3>🌍 West Africa Region</h3>
+            <p>Expanding our reach to Ghana, Senegal, and other West African nations for broader impact.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 IAAAACAME - All Rights Reserved</p>
+    <p>International Association of African American Ambassadors to Africa</p>
+    <p>Empowering Communities • Building Bridges • Creating Change</p>
+  </footer>
+
+  <script>
+    // Mobile Menu Functions
+    function toggleMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      const body = document.body;
+      
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('active');
+      
+      // Prevent body scroll when menu is open
+      if (navLinks.classList.contains('active')) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.overflow = '';
+      }
+    }
+    
+    // Handle dropdown on mobile
+    document.addEventListener('DOMContentLoaded', function() {
+      const navItem = document.querySelector('.nav-item > a');
+      if (navItem) {
+        navItem.addEventListener('click', function(e) {
+          // Only prevent default and toggle dropdown on mobile
+          if (window.innerWidth <= 768) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            parent.classList.toggle('active');
+          }
+        });
+      }
+    })
+
+    function closeMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      const body = document.body;
+      
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+      body.style.overflow = '';
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const navLinks = document.querySelector('.nav-links');
+      const hamburger = document.querySelector('.hamburger');
+      const isClickInsideNav = navLinks.contains(event.target);
+      const isClickOnHamburger = hamburger.contains(event.target);
+      
+      if (!isClickInsideNav && !isClickOnHamburger && navLinks.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+
+    // Form submission handling
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      // Show success message
+      const successMessage = document.getElementById('successMessage');
+      successMessage.classList.add('show');
+      
+      // Reset form
+      this.reset();
+      
+      // Hide success message after 5 seconds
+      setTimeout(function() {
+        successMessage.classList.remove('show');
+      }, 5000);
+      
+      // In a real application, you would send the form data to a server here
+      console.log('Form submitted!');
+    });
+
+    // Add scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe elements for scroll animations
+    document.querySelectorAll('.contact-item, .contact-form, .office-card').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>

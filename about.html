@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>About - IAAAACAME</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    
+    * {margin:0; padding:0; box-sizing:border-box;}
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height:1.6; 
+      background: #f9f9f9;
+      color:#333;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Modern Navbar */
+    nav {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      backdrop-filter: blur(20px);
+      padding: 10px 25px;
+      position:sticky;
+      top:0;
+      z-index:1000;
+      box-shadow: 0 8px 32px rgba(220, 38, 38, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    nav img {
+      height: 45px;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+      z-index: 1001;
+    }
+    nav img:hover {
+      transform: scale(1.05);
+    }
+    .nav-links {
+      display:flex;
+      gap: 5px;
+    }
+    nav a {
+      color: white;
+      padding: 10px 18px;
+      text-decoration:none;
+      font-weight: 500;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    nav a:hover, nav a.active {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+    }
+    nav a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+    nav a:hover::before {
+      left: 100%;
+    }
+    
+    /* Dropdown Menu */
+    .nav-item {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+      min-width: 200px;
+      border-radius: 12px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
+      margin-top: 5px;
+    }
+    .nav-item:hover .dropdown {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    .dropdown a {
+      display: block;
+      padding: 12px 20px;
+      border-radius: 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .dropdown a:first-child {
+      border-radius: 12px 12px 0 0;
+    }
+    .dropdown a:last-child {
+      border-radius: 0 0 12px 12px;
+      border-bottom: none;
+    }
+    .dropdown a:hover {
+      background: rgba(255, 255, 255, 0.15);
+    }
+    .nav-item > a::after {
+      content: ' ▼';
+      font-size: 0.7em;
+      margin-left: 5px;
+      transition: transform 0.3s ease;
+    }
+    .nav-item:hover > a::after {
+      transform: rotate(180deg);
+    }
+    
+    /* Hamburger Menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .hamburger span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 3px 0;
+      transition: 0.3s;
+      border-radius: 3px;
+    }
+    .hamburger.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    /* Page Header */
+    .page-header {
+      background: linear-gradient(135deg, #004080 0%, #0066cc 100%);
+      color: white;
+      padding: 80px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    }
+    .page-header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 0.8s ease;
+    }
+    .page-header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 0.8s ease 0.2s both;
+    }
+    .breadcrumb {
+      margin-top: 20px;
+      position: relative;
+      z-index: 1;
+      animation: fadeInUp 0.8s ease 0.4s both;
+    }
+    .breadcrumb a {
+      color: white;
+      text-decoration: none;
+      opacity: 0.8;
+      transition: opacity 0.3s;
+    }
+    .breadcrumb a:hover {
+      opacity: 1;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .container {
+      width:90%; 
+      max-width:1200px; 
+      margin:auto; 
+      padding:40px 20px;
+    }
+
+    section {
+      margin: 60px 0;
+    }
+
+    h2 {
+      color: #004080;
+      margin-bottom: 20px;
+      font-size: 2.2rem;
+      font-weight: 600;
+      position: relative;
+    }
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: #004080;
+      border-radius: 2px;
+    }
+
+    /* Profile Section */
+    .profile {
+      text-align: center;
+      padding: 60px 40px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.95) 100%);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      margin: 40px 0;
+    }
+    .profile img {
+      width:350px; 
+      height:350px; 
+      border-radius:20px; 
+      object-fit:cover; 
+      margin-bottom:25px;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+    }
+    .profile img:hover {
+      transform: scale(1.02);
+    }
+    .profile h2 {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .profile h2::after {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    .profile p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: #2d3748;
+      margin-bottom: 20px;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Grid */
+    .grid {
+      display:grid; 
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); 
+      gap:30px;
+      margin-top: 40px;
+    }
+
+    /* Cards */
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 20px;
+      padding: 25px;
+      text-align:center;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(20px);
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(0, 64, 128, 0.2);
+    }
+    .card img {
+      width:100%; 
+      height:220px; 
+      object-fit:cover; 
+      border-radius:15px;
+      transition: transform 0.3s ease;
+    }
+    .card:hover img {
+      transform: scale(1.05);
+    }
+    .card h3 {
+      margin: 15px 0 10px 0;
+      color: #2d3748;
+      font-weight: 600;
+    }
+    .card p {
+      color: #4a5568;
+      line-height: 1.6;
+    }
+
+    /* Vision Section */
+    .vision-section {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 60px 40px;
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+      margin: 40px 0;
+    }
+    .vision-section p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 25px;
+      color: #2d3748;
+    }
+    .vision-section p b {
+      color: #004080;
+      font-size: 1.1rem;
+      display: inline-block;
+      margin-top: 15px;
+    }
+    .vision-section .grid {
+      margin: 30px 0;
+    }
+
+    /* Footer */
+    .footer {
+      background: #003366;
+      color: white;
+      padding: 50px 20px;
+      text-align: center;
+      margin-top: 80px;
+      position: relative;
+    }
+    .footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="footerGrain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.03"/></pattern></defs><rect width="100" height="100" fill="url(%23footerGrain)"/></svg>');
+    }
+    .footer p {
+      margin: 10px 0;
+      font-size: 1.1rem;
+      position: relative;
+      z-index: 1;
+    }
+    .footer a {
+      color: #f73333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+    .footer a:hover {
+      color: #ff5555;
+      text-shadow: 0 0 10px rgba(247, 51, 51, 0.5);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      nav {
+        padding: 10px 20px;
+      }
+      nav a {
+        padding: 8px 15px;
+        font-size: 0.95rem;
+      }
+      .page-header h1 {
+        font-size: 2.5rem;
+      }
+      .container {
+        width: 95%;
+        padding: 30px 15px;
+      }
+      .grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      /* Mobile Navigation */
+      .hamburger {
+        display: flex;
+      }
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        flex-direction: column;
+        align-items: center;
+        justify-content: start;
+        padding-top: 100px;
+        transition: right 0.3s ease;
+        box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+      }
+      .nav-links.active {
+        right: 0;
+      }
+      nav a {
+        width: 80%;
+        text-align: center;
+        margin: 10px 0;
+      }
+      .nav-item {
+        width: 80%;
+        display: block;
+      }
+      .nav-item > a {
+        width: 100%;
+      }
+      .dropdown {
+        position: relative;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        margin-top: 0;
+        display: none;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: none;
+        margin-left: 20px;
+        border-radius: 8px;
+        width: 100%;
+      }
+      .dropdown a {
+        width: 90%;
+        margin: 5px auto;
+        font-size: 0.9rem;
+      }
+      .nav-item.active .dropdown {
+        display: block;
+      }
+      .nav-item > a::after {
+        content: ' +';
+        float: right;
+      }
+      .nav-item.active > a::after {
+        content: ' −';
+      }
+      nav img {
+        height: 40px;
+      }
+      
+      /* Page Header Responsive */
+      .page-header {
+        padding: 60px 15px;
+      }
+      .page-header h1 {
+        font-size: 2rem;
+      }
+      .page-header p {
+        font-size: 1rem;
+      }
+      
+      /* Container & Typography */
+      .container {
+        width: 98%;
+        padding: 25px 10px;
+      }
+      h2 {
+        font-size: 1.8rem;
+      }
+      
+      /* Grid Layout */
+      .grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      /* Profile Section */
+      .profile {
+        padding: 40px 20px;
+      }
+      .profile img {
+        width: 280px;
+        height: 280px;
+      }
+      
+      /* Cards */
+      .card {
+        padding: 20px;
+      }
+      .card img {
+        height: 180px;
+      }
+      
+      /* Vision Section */
+      .vision-section {
+        padding: 40px 20px;
+      }
+      .vision-section p {
+        font-size: 0.95rem;
+      }
+      
+      /* Footer */
+      .footer {
+        padding: 40px 15px;
+      }
+      .footer p {
+        font-size: 1rem;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      /* Very Small Devices */
+      .page-header h1 {
+        font-size: 1.8rem;
+      }
+      .page-header p {
+        font-size: 0.9rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      .profile img {
+        width: 100%;
+        max-width: 250px;
+        height: auto;
+      }
+      
+      /* Vision section */
+      .vision-section p {
+        font-size: 0.9rem;
+        text-align: left;
+        padding: 0 10px;
+      }
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav>
+    <a href="index.html"><img src="./scr/IAACAAME.jpg" alt="IAAAACAME Logo"></a>
+    <div class="hamburger" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="nav-links">
+      <a href="index.html" onclick="closeMenu()">Home</a>
+      <div class="nav-item">
+        <a href="about.html" class="active" onclick="closeMenu()">About</a>
+        <div class="dropdown">
+          <a href="index.html#projects" onclick="closeMenu()">Projects</a>
+          <a href="index.html#school" onclick="closeMenu()">School</a>
+          <a href="index.html#cause" onclick="closeMenu()">Our Cause</a>
+        </div>
+      </div>
+      <a href="contact.html" onclick="closeMenu()">Contact</a>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <div class="page-header">
+    <h1>About IAAAACAME</h1>
+    <p>Learn about our mission, leadership, and the heroes who inspire us</p>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> &raquo; About
+    </div>
+  </div>
+
+  <div class="container">
+
+    <!-- Dr Zyra McCloud Profile -->
+    <section class="profile">
+      <h2>Our Founder & President</h2>
+      <center>
+        <img src="./scr/DR ZYRA MCCLOUD.jpg" alt="Dr Zyra McCloud">
+      </center>
+      <p><b>Dr. Zyra McCloud</b> is a visionary leader, educator, and advocate with over 55 years of experience in driving educational reform and global development. As the founder and president of IAAAACAME, she has dedicated her career to fostering partnerships, building schools, and advancing economic and healthcare initiatives across Africa, Nigeria, and the West Africa region.</p>
+      <p>Recognized with numerous honors, Dr. McCloud continues to inspire change, influence leaders, and improve lives globally through her unwavering commitment to education and community development.</p>
+    </section>
+
+    <!-- Vision, Goals, Objectives & Collaboration -->
+    <section class="vision-section">
+      <h2>Vision, Goals, Objectives & Collaboration</h2>
+      
+      <p><b>Vision:</b> IAAAACAME envisions a united Africa and Diaspora, working hand-in-hand to achieve sustainable economic growth, quality education, healthcare access, and social justice.</p>
+      
+      <div class="grid"> 
+        <div class="card">
+          <img src="./scr/THE GLOBE.jpg" alt="mission">
+          <h3>Changing the Globe</h3>
+          <p>The vision for Africa.</p>
+        </div>
+      </div>
+      
+      <p><b>Goals:</b> To rebuild Nigeria and Africa by reconnecting with African Americans, fostering youth empowerment, and creating sustainable opportunities in ministry, agriculture, technology, and trade.</p>
+      
+      <p><b>Objectives:</b> We are committed to transforming lives and communities through sustainable initiatives that go beyond meeting basic needs. Our vision is to provide access to decent and affordable housing, create meaningful job opportunities, and empower young, innovative individuals with entrepreneurship training and digital skills to thrive in the future of work. We also strive to expand access to higher education, establish modern healthcare facilities, teach young people how to use technology responsibly, and ensure clean, safe water for every household.</p>
+
+      <div class="grid"> 
+        <div class="card">
+          <img src="./scr/AFRICAN UNITY.jpg" alt="mission">
+          <h3>African Unity</h3>
+          <p>The Mission in Africa.</p>
+        </div>
+      </div>
+      
+      <p>In addition, we are dedicated to strengthening food security through agricultural development, advancing renewable energy solutions for sustainable living, and creating community centers that inspire leadership, innovation, and spiritual growth through ministry. By investing in people and infrastructure, we are not only addressing today's challenges we are laying the foundation for resilient, flourishing communities that will endure for generations to come.</p>
+      
+      <p><b>Collaboration:</b> IAAAACAME partners with global and local organizations to advance solar energy, waste management, housing, import/export, and capacity building. Together with institutions like Cal Clean Earth (CCE), we foster green development while uplifting vulnerable communities.</p>
+    </section>
+
+    <!-- Board of Directors -->
+    <section class="directors">
+      <h2>Board of Directors: Past • Present • Future</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="./scr/DR ZYRA MCCLOUD HEAD OF THE ORGANIZATION.jpg" alt="Board Member">
+          <h3>Dr. Zyra McCloud</h3>
+          <p>CEO of IAAAACAME - Head of the organization.</p>
+        </div>
+        <div class="card">
+          <img src="./scr/MINISTER OF WOMEN AFFAIRS.jpg" alt="Board Member">
+          <h3>Mrs. Tallen Paulina</h3>
+          <p>Minister of Women Affairs.</p>
+        </div>
+        <div class="card">
+          <img src="./scr/GOVERNOR DARIYE.jpg" alt="Board Member">
+          <h3>Senator Joshua Dariye</h3>
+          <p>Senator of the House of Representatives.</p>
+        </div>
+        <div class="card">
+          <img src="https://i.ibb.co/M2G5kWq/board1.jpg" alt="Board Member">
+          <h3>Mrs. Linda Suleiman</h3>
+          <p>Leader in charge of agriculture for the IAAAACAME Nigeria region.</p>
+        </div>
+        <div class="card">
+          <img src="https://i.ibb.co/M2G5kWq/board1.jpg" alt="Board Member">
+          <h3>Mrs. Alero Elizabeth</h3>
+          <p>Leader in charge of the local women association.</p>
+        </div>
+        <div class="card">
+          <img src="https://i.ibb.co/M2G5kWq/board1.jpg" alt="Board Member">
+          <h3>Board Member</h3>
+          <p>Leader in charge of conferences and meetings.</p>
+        </div>
+        <div class="card">
+          <img src="https://i.ibb.co/M2G5kWq/board1.jpg" alt="Board Member">
+          <h3>Board Member</h3>
+          <p>USA delegate.</p>
+        </div>
+        <div class="card">
+          <img src="https://i.ibb.co/M2G5kWq/board1.jpg" alt="Board Member">
+          <h3>Board Member</h3>
+          <p>USA delegate.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- African Heroes -->
+    <section class="heroes">
+      <h2>African Heroes Who Inspire Us</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="./scr/NELSON.webp" alt="Nelson Mandela">
+          <h3>Nelson Mandela</h3>
+          <p>Iconic leader who fought for freedom and equality in South Africa. His legacy of forgiveness and reconciliation continues to inspire our work.</p>
+        </div>
+        <div class="card">
+          <img src="./scr/KWAME NKRUMAH.jpg" alt="Kwame Nkrumah">
+          <h3>Kwame Nkrumah</h3>
+          <p>First Prime Minister & President of Ghana, Pan-African visionary who championed African independence and unity.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Web Developers -->
+    <section class="web-developers">
+      <h2>Web Development Team</h2>
+      <div class="grid">
+        <div class="card">
+          <img src="https://i.ibb.co/ZG6QXzW/hero1.jpg" alt="Jethro Suleiman">
+          <h3>Jethro Suleiman</h3>
+          <p>Web Developer</p>
+        </div>
+        <div class="card">
+          <img src="https://i.ibb.co/3yk5Ms3/hero2.jpg" alt="Dr Kennedy">
+          <h3>Dr Kennedy</h3>
+          <p>Web Developer</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 IAAAACAME - All Rights Reserved</p>
+    <p>International Association of African American Ambassadors to Africa</p>
+    <p>Empowering Communities • Building Bridges • Creating Change</p>
+  </footer>
+
+  <script>
+    // Mobile Menu Functions
+    function toggleMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      const body = document.body;
+      
+      hamburger.classList.toggle('active');
+      navLinks.classList.toggle('active');
+      
+      // Prevent body scroll when menu is open
+      if (navLinks.classList.contains('active')) {
+        body.style.overflow = 'hidden';
+      } else {
+        body.style.overflow = '';
+      }
+    }
+    
+    // Handle dropdown on mobile
+    document.addEventListener('DOMContentLoaded', function() {
+      const navItem = document.querySelector('.nav-item > a');
+      if (navItem) {
+        navItem.addEventListener('click', function(e) {
+          // Only prevent default and toggle dropdown on mobile
+          if (window.innerWidth <= 768) {
+            e.preventDefault();
+            const parent = this.parentElement;
+            parent.classList.toggle('active');
+          }
+        });
+      }
+    })
+
+    function closeMenu() {
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      const body = document.body;
+      
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+      body.style.overflow = '';
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const navLinks = document.querySelector('.nav-links');
+      const hamburger = document.querySelector('.hamburger');
+      const isClickInsideNav = navLinks.contains(event.target);
+      const isClickOnHamburger = hamburger.contains(event.target);
+      
+      if (!isClickInsideNav && !isClickOnHamburger && navLinks.classList.contains('active')) {
+        closeMenu();
+      }
+    });
+
+    // Add scroll animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    // Observe all sections for scroll animations
+    document.querySelectorAll('.card, .profile, section').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(30px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
