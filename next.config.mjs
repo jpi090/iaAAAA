@@ -10,8 +10,6 @@ const nextConfig = {
       },
     ],
   },
-  basePath: process.env.NODE_ENV === 'production' ? '/iaAAAA' : '',
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/iaAAAA/' : '',
 };
 
 export default nextConfig;
