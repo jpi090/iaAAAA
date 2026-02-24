@@ -21,6 +21,11 @@ const images = [
   { src: "/scr/WhatsApp Image 2026-02-03 at 7.48.07 PM.jpeg", title: "IAAAACAME Vision: Building Tomorrow's Leaders", category: "Vision", type: "image" },
   { src: "/scr/WhatsApp Image 2026-02-03 at 7.48.08 PM.jpeg", title: "IAAAACAME Vision: Empowering Communities", category: "Vision", type: "image" },
   { src: "/scr/WhatsApp Image 2026-02-03 at 7.48.09 PM.jpeg", title: "IAAAACAME Vision: Transforming Lives", category: "Vision", type: "image" },
+  { src: "/scr/WhatsApp Image 2026-02-04 at 5.57.13 PM.jpeg", title: "IAAAACAME Vision: Flourishing Future", category: "Vision", type: "image" },
+  { src: "/scr/WhatsApp Image 2026-02-04 at 5.57.13 PM (1).jpeg", title: "IAAAACAME Vision: Strategic Leadership", category: "Vision", type: "image" },
+  { src: "/scr/WhatsApp Image 2026-02-04 at 5.57.14 PM.jpeg", title: "IAAAACAME Vision: Executive Excellence", category: "Vision", type: "image" },
+  { src: "/scr/WhatsApp Image 2026-02-04 at 5.57.14 PM (1).jpeg", title: "IAAAACAME Vision: Community Partnership", category: "Vision", type: "image" },
+  { src: "/scr/WhatsApp Image 2026-02-04 at 5.57.15 PM.jpeg", title: "IAAAACAME Vision: Educational Innovation", category: "Vision", type: "image" },
 ];
 
 export default function Gallery() {
